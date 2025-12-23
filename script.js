@@ -343,10 +343,11 @@ async function checkBackendStatus() {
         const data = await response.json();
 
         if (data.status === 'OK') {
+            const dbStatus = data.database?.status || 'unknown';
             statusDot.style.background = '#10b981'; // Green
             statusDot.classList.add('status-pulse');
             statusText.textContent = 'Backend: Online';
-            indicator.title = `Database: ${data.database}`;
+            indicator.title = `Database: ${dbStatus}`;
         } else {
             throw new Error('Backend error');
         }
