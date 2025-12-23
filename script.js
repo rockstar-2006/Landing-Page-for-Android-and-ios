@@ -330,9 +330,37 @@ particleStyle.textContent = `
 `;
 document.head.appendChild(particleStyle);
 
+// Backend health check
+async function checkBackendStatus() {
+    const statusDot = document.querySelector('.status-dot');
+    const statusText = document.querySelector('.status-text');
+    const indicator = document.getElementById('backendStatus');
+
+    if (!indicator) return;
+
+    try {
+        const response = await fetch('https://backend-android-ios-faculty-web-app.vercel.app/api/health');
+        const data = await response.json();
+
+        if (data.status === 'OK') {
+            statusDot.style.background = '#10b981'; // Green
+            statusDot.classList.add('status-pulse');
+            statusText.textContent = 'Backend: Online';
+            indicator.title = `Database: ${data.database}`;
+        } else {
+            throw new Error('Backend error');
+        }
+    } catch (error) {
+        statusDot.style.background = '#ef4444'; // Red
+        statusDot.classList.remove('status-pulse');
+        statusText.textContent = 'Backend: Offline';
+    }
+}
+
 // Initialize on page load
 window.addEventListener('DOMContentLoaded', () => {
     createParticles();
+    checkBackendStatus();
 
     // Add initial animation to hero
     const heroContent = document.querySelector('.hero-content');
