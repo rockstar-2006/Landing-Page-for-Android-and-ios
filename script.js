@@ -339,7 +339,7 @@ async function checkBackendStatus() {
     if (!indicator) return;
 
     try {
-        const response = await fetch('https://backend-android-ios-faculty-web-app.vercel.app/api/health');
+        const response = await fetch('https://backend-android-ios-faculty-web-app.onrender.com/api/health');
         const data = await response.json();
 
         if (data.status === 'OK') {
